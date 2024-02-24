@@ -1,0 +1,183 @@
+. Abrir o terminal
+
+. Alterar o diretório com o comando `cd` para a pasta local do repositório do projeto
+
+. Iniciar o `git` dentro da pasta raiz do projeto, com o comando: `git init` 
+
+. Depois de criada a pasta `.git` na raiz do repositório do projeto,
+seguir os passos conforme um dos links:
+
+	. `https://www.youtube.com/watch?v=u_UCgztbAR8`	
+	
+	. `https://www.xltrail.com/blog/auto-export-vba-commit-hook`
+
+. Criar as pastas e incluir em cada uma delas o arquivo `__init__.py`:
+
+	. `docs/`
+
+	. `scripts/`
+
+	. `src/`
+
+	. `tests/`
+
+	. `references`
+
+. Incluir o(s) arquivo(s) convenientes dentro da pasta `references/`
+
+	. NÃO esquecer de incluir os arquivos:
+
+		. `EmentaDoComputaçãoCientíficaEmPython`
+
+		. `EmentaDoExcel`
+
+. Copiar o(s) arquivo(s) convenientes da pasta `references/` para a pasta `docs/`
+
+. Copiar o(s) arquivo(s):
+
+	. `.gitattributes`
+
+	. `.gitignore`
+
+	. `pylintrc`
+
+	. `CHANGES.txt`
+
+	. `convert_ipynb_to_md_and_py.ipynb`
+
+	. `create_and_activate_an_enviroment.ipynb`
+
+	. `filter_nb_metadata,py`
+
+	. `LICENSE.txt`
+
+	. ``MANIFEST.in
+
+	. `pyproject.toml`
+
+	. `README.ipynb`
+
+	. `README.md`
+
+	. `README.py`
+
+	. `requirements.txt`
+
+	. `setup.cfg`
+
+. Alterar o arquivo `README.ipynb`
+
+	. Alterar a Seção de `Resumo` e o `Abstract`
+
+	. Alterar a Seção de `Referências`
+
+. Executar o arquivo `README.ipynb` (Run All)
+
+. Executar o arquivp `convert_ipynb_to_md_and_py.ipynb` (Run All)
+
+. Alterar o arquivo `MANIFEST.in
+
+. Criar o repositório do projeto no `GitHub`
+
+. Alterar o arquivo `setup.cfg` os campos abaixo:
+
+	. `name
+
+	. `description`
+
+	. `url`
+
+. Abri a página da `zenodo.org`
+
+. Clicar na seta ao lado do nome do usuário
+
+. Clicar em `GitHub`
+
+. Clicar em `Sync now`
+
+. Criar uma nova versão (Create a new release), colocar
+a tag `0.0.1` e o título `Initial release for register the application`,
+você será direcionado para o website do `GitHub; publicar versão
+
+. Fazer upload e o commit  da(s) pasta(s) no repositório do projeto no
+`GitHub` como `Adding folder(s)`:
+
+	. `.git
+
+	. `docs/`
+
+	. `scripts/`
+
+	. `src/`
+
+	. `tests`/
+
+. Realizar o `commit` com o título `Adding folder(s)`
+
+. Fazer upload e o commit  da(s) pasta(s) no repositório do projeto no
+`GitHub` como `Adding file(s)`:
+
+	. `.gitattributes`
+
+	. `.gitignore`
+
+	. `pylintrc`
+
+	. `CHANGES.txt`
+
+	. `convert_ipynb_to_md_and_py.ipynb`
+
+	. `create_and_activate_an_enviroment.ipynb`
+
+	. `filter_nb_metadata,py`
+
+	. `LICENSE.txt`
+
+	. ``MANIFEST.in
+
+	. `pyproject.toml`
+
+	. `README.ipynb`
+
+	. `README.md`
+
+	. `README.py`
+
+	. `requirements.txt`
+
+	. `setup.cfg`
+
+. Realizar o `commit` com o título `Adding file(s)`
+
+. Voltar para o website da `zenodo.org`
+
+. Clicar no link do repositório do projeto
+
+. Clicar no link `DOI` ao lado do nome do repositório do projeto
+
+. Criar um arquivo chamado `DOI.txt` dentro da pasta raiz do repositório do projeto
+
+. Copiar o conteúdo do link `DOI` do website `zenodo.org` para dentro do arquivo `DOI.txt` criado
+
+. Abrir o arquivo `README.ipynb` e incluir o `DOI` (Markdown, conforme exemplo abaixo) logo abaixo da
+primeira célula, embaixo do nome do programa:
+
+	[![DOI](https://zenodo.org/badge/758633269.svg)](https://zenodo.org/doi/10.5281/zenodo.10672260)
+
+. Executar o arquivo `README.ipynb` (Run All)
+
+. Executar o arquivp `convert_ipynb_to_md_and_py.ipynb` (Run All)
+
+. Gerar o `CITATION.bib` e salvar na pasta local do repositório do projeto ou alterar os campos abaixo:
+
+	. No início do arquivo existe um código do DOI
+
+	. `title`
+
+	. `doi`
+		
+	. `url`
+
+. Fazer upload das alterações via comando do `git
+
+

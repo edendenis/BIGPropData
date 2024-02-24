@@ -1,24 +1,24 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Radial Basis Function Neural Networks (RBFNN)
+# # BIGPropData
 # 
-# [![DOI](https://zenodo.org/badge/758747133.svg)](https://zenodo.org/doi/10.5281/zenodo.10672752)
+# [![DOI](https://zenodo.org/badge/758774409.svg)](https://zenodo.org/doi/10.5281/zenodo.10672911)
 # 
 
 # ## Resumo
 # 
-# Aplicação computacional de Redes Neurais de Função de Base Radial (RBFNN) eu empregam funções de base radial em camadas ocultas, modelando com eficiência relacionamentos não lineares complexos em dados. Sua arquitetura exclusiva permite aproximação, classificação e regressão precisas de funções, tornando-os versáteis e eficazes em vários domínios.
+# O programa BIGPropData emprega Redes Neurais de Função de Base Radial (RBFNN) para previsão precisa do empuxo da turbina (F) a partir de dados experimentais, contornando equações complexas de Mecânica dos Fluidos e Termodinâmica.
 # 
 # ## _Abstract_
 # 
-# _Computational Application of Radial Basis Function Neural Networks (RBFNN) I employ radial basis functions in hidden layers, efficiently modeling complex nonlinear relationships in data. Their unique architecture enables accurate function approximation, classification, and regression, making them versatile and effective across multiple domains._
+# _The BIGPropData program employs Radial Basis Function Neural Networks (RBFNN) for accurate prediction of turbine thrust (F) from experimental data, bypassing complex equations of Fluid Mechanics and Thermodynamics._
 
 # ## Revisão(ões)/Versão(ões)
 # 
 # | Revisão número | Data da revisão | Descrição da revisão                                    | Autor da revisão                                |
 # |:--------------:|:---------------:|:--------------------------------------------------------|:------------------------------------------------|
-# | 0              | 15/09/2022      | <ul><li>Revisão inicial/criação do documento.</li></ul> | <ul><li>Eden Denis F. da S. L. Santos</li></ul> |
+# | 0              | 17/02/2024      | <ul><li>Revisão inicial/criação do documento.</li></ul> | <ul><li>Eden Denis F. da S. L. Santos</li></ul> |
 # 
 
 # ## 1. Como executar a aplicação

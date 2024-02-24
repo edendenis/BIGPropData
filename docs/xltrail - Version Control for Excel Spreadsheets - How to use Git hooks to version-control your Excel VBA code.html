@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://www.xltrail.com/blog/auto-export-vba-commit-hook -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script type="text/javascript" async="" src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/js"></script><script type="text/javascript" async="" src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/js(1)"></script><script async="" src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/analytics.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-39750173-6', 'auto');
+  ga('create', 'UA-39750173-11', 'auto', 'conversionTracker');
+  ga('send', 'pageview');
+  ga('conversionTracker.send', 'pageview');
+
+</script>
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index,follow">
+  
+  <title>xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code</title>
+  <meta name="description" content="Learn how use Git hooks to export your VBA modules into stand-alone files to make Git aware of code inside your Excel workbooks.">
+  <meta name="keywords" content="excel git,git excel,excel version control,excel,spreadsheet,spreadsheets,version control,subversion,git,mercurial,bazaar,beyondcompare,diff,diffing,diff spreadsehets,diff excel,diff vba,excel track changes,how to track changes in Excel">
+
+  <meta property="og:site_name" content="xltrail - Version Control for Excel Spreadsheets">
+  <meta property="og:url" content="https://www.xltrail.com/blog/auto-export-vba-commit-hook">
+  
+
+  
+  <meta property="og:title" content="How to use Git hooks to version-control your Excel VBA code">
+  <meta property="og:type" content="article">
+  <meta property="og:description" content="Exporting your VBA modules into stand-alone .bas/.cls/.frm files is a simple and effective way to make Git aware of code inside your Excel workbooks. The goal is to end up with a separate files for each of your VBA modules so that you can benefit from the Git functionalities.
+">
+  
+
+  
+  <meta property="article:published_time" content="2021-08-26T00:00:00+00:00">
+  <meta property="article:author" content="https://www.xltrail.com/team">
+  
+
+  
+  <meta itemprop="keywords" content="git,git hooks,excel,vba,excel vba,python">
+  
+  <meta property="article:tag" content="git">
+  
+  <meta property="article:tag" content="git hooks">
+  
+  <meta property="article:tag" content="excel">
+  
+  <meta property="article:tag" content="vba">
+  
+  <meta property="article:tag" content="excel vba">
+  
+  <meta property="article:tag" content="python">
+  
+  
+
+  
+  <meta property="article:author" content="">
+  
+
+  <link rel="shortcut icon" href="https://www.xltrail.com/assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/main.css">
+  <link rel="stylesheet" href="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/syntax.css">
+  <link rel="stylesheet" href="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/css">
+  <link rel="stylesheet" href="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/all.css" crossorigin="anonymous">
+<script src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/embed.js" data-timestamp="1708106418482"></script><script src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/count-data.js"></script><script src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/alfie_v4.63f1ab6d6b9d5807dc0c94ef3fe0b851.js" async="" charset="UTF-8"></script></head>
+
+  <body class="d-flex flex-column">
+    <header>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-expand-xl navbar-light fixed-top bg-light
+  border-bottom border-primary border-2">
+    <div class="container">
+      <a class="navbar-brand p-0" href="https://www.xltrail.com/"><img src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/xltrail_logo_pos.svg" alt="xltrail-logo" height="60"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse navbar-main" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          
+          <li class="nav-item mr-md-4" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a href="https://www.xltrail.com/integrations" class="nav-link text-uppercase montserrat-bold pt-3 pb-3
+             link-dark-primary 
+            ">
+              <span>Git Integration</span>
+              
+            </a>
+          </li>
+          
+          <li class="nav-item mr-md-4" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a href="https://www.xltrail.com/enterprise" class="nav-link text-uppercase montserrat-bold pt-3 pb-3
+             link-dark-primary 
+            ">
+              <span>Self-Hosted</span>
+              
+            </a>
+          </li>
+          
+          <li class="nav-item mr-md-4" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a href="https://www.xltrail.com/pricing" class="nav-link text-uppercase montserrat-bold pt-3 pb-3
+             link-dark-primary 
+            ">
+              <span>Pricing</span>
+              
+            </a>
+          </li>
+          
+          <li class="nav-item mr-md-4" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a href="https://www.xltrail.com/docs" class="nav-link text-uppercase montserrat-bold pt-3 pb-3
+             link-dark-primary 
+            ">
+              <span>Docs</span>
+              
+            </a>
+          </li>
+          
+          <li class="nav-item mr-md-4" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a href="https://www.xltrail.com/contact" class="nav-link text-uppercase montserrat-bold pt-3 pb-3
+             link-dark-primary 
+            ">
+              <span>Contact Us</span>
+              
+            </a>
+          </li>
+          
+        </ul>
+          <a href="https://app.xltrail.com/" class="nav-link text-uppercase montserrat-bold pt-3 pb-3 pl-0 link-dark-primary">Log In</a>
+          <a href="https://app.xltrail.com/#/?signup=1" class="btn btn-primary btn-navbar" role="button">FREE TRIAL</a>
+      </div>
+    </div>
+  </nav>
+</header>
+    <div class="navbar-padding"></div>
+    <main role="main">
+      <div class="bg-primary pt-4 pb-4"></div>
+
+<div class="container mt-5 blog-content">
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-md-10">
+      <p>Last updated on August 26, 2021</p>
+      <h1>How to use Git hooks to version-control your Excel VBA code</h1>
+      <p>
+         Posted by <a href="https://www.xltrail.com/team">Björn Stiel</a> 
+        
+          - <a href="https://www.xltrail.com/blog/auto-export-vba-commit-hook#disqus_thread" data-disqus-identifier="https://www.xltrail.com/blog/auto-export-vba-commit-hook">44 Comments</a> 
+        
+      </p>
+      <div class="markdown-content">
+        <p>Exporting your VBA modules into stand-alone <code class="highlighter-rouge">.bas</code>/<code class="highlighter-rouge">.cls</code>/<code class="highlighter-rouge">.frm</code> files is a simple and effective way to make Git aware of code inside your Excel workbooks. The goal is to end up with a separate files for each of your VBA modules so that you can benefit from the Git functionalities.</p>
+
+<p>One common way to achieve this is via Excel’s <code class="highlighter-rouge">Workbook.AfterSave</code> (or <code class="highlighter-rouge">Workbook.BeforeSave</code>) event. Every time you hit “save” in Excel, some VBA code is executed and saves a copy of your workbook’s VBA content to the filesystem. You end up with your VBA files alongside your workbook which can then be pushed to your Git server.</p>
+
+<p><img src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/2017-11-29_repo.png" alt="Git repository"></p>
+
+<h2 id="git-hooks">Git hooks</h2>
+
+<p>There are a few downsides to using Excel events. You are dependent on Excel, so if you copy your workbook from an email or another folder into your Git repository folder, your VBA export function will not run. Distributing the export function (either via copy and paste or as an Addin) and ensuring it runs reliably is another pain point.</p>
+
+<p>An alternative approach is to exploit Git’s built-in hooks. Hooks are programs you can place in a hooks directory to trigger actions at certain points in Git’s execution. You can find a list of available hooks in <a class="vglnk" href="https://git-scm.com/docs/githooks" rel="nofollow"><span>https</span><span>://</span><span>git</span><span>-</span><span>scm</span><span>.</span><span>com</span><span>/</span><span>docs</span><span>/</span><span>githooks</span></a>. We will use the pre-commit hook to do the following when you call <code class="highlighter-rouge">git commit</code>:</p>
+
+<ul>
+  <li>extract the VBA modules from your workbook and write them as <code class="highlighter-rouge">.bas</code> or <code class="highlighter-rouge">.cls</code> or <code class="highlighter-rouge">.frm</code> files to your repository</li>
+  <li>add these VBA files to your commit via <code class="highlighter-rouge">git add -- ./src.vba</code></li>
+  <li>finally execute the <code class="highlighter-rouge">git commit</code> command</li>
+</ul>
+
+<h2 id="a-python-script-to-extract-your-vba-code">A Python script to extract your VBA code</h2>
+
+<p>We use the Python package <a href="https://github.com/decalage2/oletools">oletools</a> to extract the VBA code from the Excel file (in fact, this works for any MS Office file). Thus, we no longer have to resort to Excel itself to get hold of the VBA code.</p>
+
+<p>Our script requires Python 3 and oletools. <code class="highlighter-rouge">oletools</code> can be installed via pip, Python’s package manager: <code class="highlighter-rouge">pip install -U oletools</code>.</p>
+
+<p>Create a file named <code class="highlighter-rouge">pre-commit.py</code> in the <code class="highlighter-rouge">.git/hooks</code> folder inside your repository and add the following code:</p>
+
+<p><strong>NOTE:</strong> The following code has been updated multiple times according to feedback, last time: 26-Aug-2021</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">oletools.olevba3</span> <span class="kn">import</span> <span class="n">VBA_Parser</span>
+
+
+<span class="n">EXCEL_FILE_EXTENSIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s">'xlsb'</span><span class="p">,</span> <span class="s">'xls'</span><span class="p">,</span> <span class="s">'xlsm'</span><span class="p">,</span> <span class="s">'xla'</span><span class="p">,</span> <span class="s">'xlt'</span><span class="p">,</span> <span class="s">'xlam'</span><span class="p">,)</span>
+<span class="n">KEEP_NAME</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># Set this to True if you would like to keep "Attribute VB_Name"
+</span>
+
+<span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">workbook_path</span><span class="p">):</span>
+    <span class="n">vba_path</span> <span class="o">=</span> <span class="s">'src.vba'</span>
+    <span class="n">vba_parser</span> <span class="o">=</span> <span class="n">VBA_Parser</span><span class="p">(</span><span class="n">workbook_path</span><span class="p">)</span>
+    <span class="n">vba_modules</span> <span class="o">=</span> <span class="n">vba_parser</span><span class="p">.</span><span class="n">extract_all_macros</span><span class="p">()</span> <span class="k">if</span> <span class="n">vba_parser</span><span class="p">.</span><span class="n">detect_vba_macros</span><span class="p">()</span> <span class="k">else</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">vba_modules</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="s">'</span><span class="se">\r\n</span><span class="s">'</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">content</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'</span><span class="se">\r\n</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">content</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">line</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'Attribute'</span><span class="p">)</span> <span class="ow">and</span> <span class="s">'VB_'</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s">'VB_Name'</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">KEEP_NAME</span><span class="p">:</span>
+                        <span class="n">content</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">content</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">content</span> <span class="ow">and</span> <span class="n">content</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">''</span><span class="p">:</span>
+                <span class="n">content</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">non_empty_lines_of_code</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">content</span> <span class="k">if</span> <span class="n">c</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">non_empty_lines_of_code</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">vba_path</span><span class="p">)):</span>
+                        <span class="n">os</span><span class="p">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">vba_path</span><span class="p">)</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">vba_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="s">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="n">walk</span><span class="p">(</span><span class="s">'.'</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">'.vba'</span><span class="p">):</span>
+                <span class="n">shutil</span><span class="p">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span><span class="p">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">EXCEL_FILE_EXTENSIONS</span><span class="p">):</span>
+                <span class="n">parse</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>This Python script finds any Excel files that can contain VBA and dumps the content into a subfolder named  <code class="highlighter-rouge">src.vba</code>.
+Note that this script works unchanged if you only use 1 workbook. If you have more than one Workbook in one repository, you’ll need to replace <code class="highlighter-rouge">vba_path = 'src.vba'</code> with <code class="highlighter-rouge">vba_path = workbook_path + '.vba'</code>
+and edit your <code class="highlighter-rouge">pre-commit</code> file below accordingly to have a <code class="highlighter-rouge">git add -- ./&lt;workbookname&gt;.vba</code> line for each of your workbooks.</p>
+
+<h2 id="setting-up-the-git-pre-commit-hook">Setting up the Git pre-commit hook</h2>
+
+<p>The only missing bit is to set up the Git <code class="highlighter-rouge">pre-commit</code> now. Create the file <code class="highlighter-rouge">pre-commit</code> in <code class="highlighter-rouge">.git/hooks</code> inside your repository and add the following code:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+
+python .git/hooks/pre-commit.py
+git add <span class="nt">--</span> ./src.vba
+</code></pre></div></div>
+
+<p class="alert alert-info"><strong>Note</strong>: On Mac you need to run <code class="highlighter-rouge">chmod +x .git/hooks/pre-commit</code>, otherwise it will not trigger the hook.</p>
+
+<p>From now on, when you execute <code class="highlighter-rouge">git commit</code>, the hook extracts the VBA code and adds it to your commit. You automatically end up with the <code class="highlighter-rouge">.bas</code> files without having to rely on Excel.</p>
+
+<p><img src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/2017-11-29_files.png" alt="VBA files"></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In order to automagically export your workbook’s VBA modules into stand-alone text files 
+on every <code class="highlighter-rouge">git commit</code>, you need:</p>
+
+<ul>
+  <li>Python with <code class="highlighter-rouge">oletools</code> installed and</li>
+  <li>the files <code class="highlighter-rouge">pre-commit</code> and <code class="highlighter-rouge">pre-commit.py</code> in the <code class="highlighter-rouge">.git/hooks</code> directory</li>
+</ul>
+
+<p>With that in place, any <code class="highlighter-rouge">git commit</code> automatically takes care of dumping your workbooks 
+VBA content as text files to your filesystem. Which is something that Git understands well.</p>
+
+<h2 id="before-you-go-a-zero-setup-open-source-alternative">Before you go: a zero-setup, open-source alternative</h2>
+
+<p>If you are less of a DIY person, I recommend checking out our free, open-source Git extension <a href="https://www.xltrail.com/git-xl">Git XL</a>. Instead of having to rely on a workaround, xltrail client is a Git extension that integrates
+directly with Git and makes <code class="highlighter-rouge">git diff</code> work with Excel workbook files. It also supports <code class="highlighter-rouge">git merge</code> for those instances where your colleague works on the same workbook and you need to merge their changes in. Plus, xltrail
+client goes a step beyond the VBA-only approach and also understands sheets. For installation instructions, docs and an example video, check out the <a href="https://www.xltrail.com/git-xl">docs</a> and the <a href="https://github.com/xlwings/git-xl">GitHub repository</a>.</p>
+
+      </div>
+      <div class="mt-5 mb-5">
+        
+        <a class="btn btn-primary" href="https://www.xltrail.com/blog/collaborate-on-excel-workbooks">
+          <i class="fas fa-long-arrow-alt-left"></i> Previous Post</a>
+        
+        
+        <a class="btn btn-secondary" href="https://www.xltrail.com/blog">
+          Back to Blog</a>
+      </div>
+      
+        <div id="disqus_thread"><iframe id="dsq-app6670" name="dsq-app6670" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 9875px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+<script>
+
+  /*
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+  */
+  var disqus_config = function () {
+    this.page.url = 'https://www.xltrail.com/blog/auto-export-vba-commit-hook';  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = 'https://www.xltrail.com/blog/auto-export-vba-commit-hook'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  (function () { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://xltrail-blog.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+      
+    </div>
+  </div>
+</div>
+
+
+    </main>
+    <footer class="footer mt-auto pt-5 pb-3 bg-dark">
+  <div class="container text-light">
+    <div class="row d-flex justify-content-lg-center justify-content-sm-start">
+      
+        <div class="col-ss-6 col-sm-6 col-lg-2 mb-4">
+          <h5 class="pb-4">
+            About Us
+          </h5>
+          <ul class="nav flex-column">
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xltrail.com/team">
+                
+                Team
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xltrail.com/privacy">
+                
+                Privacy Policy &amp; ToS
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xltrail.com/imprint">
+                
+                Legal Notice
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xltrail.com/contact">
+                
+                Contact Us
+              </a></li>
+            
+          </ul>
+        </div>
+      
+        <div class="col-ss-6 col-sm-6 col-lg-2 mb-4">
+          <h5 class="pb-4">
+            Products
+          </h5>
+          <ul class="nav flex-column">
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xltrail.com/">
+                
+                xltrail
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xltrail.com/git-xl">
+                
+                Git XL
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xlwings.org/" target="_blank">
+                
+                xlwings (Open Source)
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xlwings.org/pro" target="_blank">
+                
+                xlwings PRO
+              </a></li>
+            
+          </ul>
+        </div>
+      
+        <div class="col-ss-6 col-sm-6 col-lg-2 mb-4">
+          <h5 class="pb-4">
+            Resources
+          </h5>
+          <ul class="nav flex-column">
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xltrail.com/blog">
+                
+                Blog
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xltrail.com/docs" target="_blank">
+                
+                xltrail Docs
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://stats.uptimerobot.com/Y50wniK6l" target="_blank">
+                
+                xltrail Status
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.xlwings.org/whitepapers" target="_blank">
+                
+                White Papers
+              </a></li>
+            
+          </ul>
+        </div>
+      
+        <div class="col-ss-6 col-sm-6 col-lg-2 mb-4">
+          <h5 class="pb-4">
+            Follow Us
+          </h5>
+          <ul class="nav flex-column">
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.youtube.com/channel/UC48ICUFi-12j8ka6AIhsg1Q" target="_blank">
+                 <span class="mr-1"><i class="fab fa-youtube"></i></span> 
+                YouTube
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.linkedin.com/company/xlwings" target="_blank">
+                 <span class="mr-1"><i class="fab fa-linkedin"></i></span> 
+                LinkedIn
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://xlwings.us3.list-manage.com/subscribe/post?u=d26eeebf5a5b8b218408f737f&amp;id=42091b3e95&amp;SIGNUP=www.xlwings.org" target="_blank">
+                 <span class="mr-1"><i class="fas fa-envelope"></i></span> 
+                Newsletter
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://twitter.com/xlwingsorg" target="_blank">
+                 <span class="mr-1"><i class="fab fa-twitter"></i></span> 
+                Twitter
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://github.com/xlwings" target="_blank">
+                 <span class="mr-1"><i class="fab fa-github"></i></span> 
+                GitHub
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.meetup.com/xlwings-Meetup/" target="_blank">
+                 <span class="mr-1"><i class="fab fa-meetup"></i></span> 
+                Meetup London
+              </a></li>
+            
+              <li class="pb-2"><a class="link-light d-flex align-items-center" href="https://www.meetup.com/xlwings-Meetup-NYC/" target="_blank">
+                 <span class="mr-1"><i class="fab fa-meetup"></i></span> 
+                Meetup NYC
+              </a></li>
+            
+          </ul>
+        </div>
+      
+    </div>
+    <div class="text-center text-muted small pt-3">© 2024 Zoomer Analytics GmbH. All rights reserved.
+    </div>
+  </div>
+</footer>
+    <script src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/jquery.min.js"></script>
+<script src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/popper.min.js"></script>
+<script src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/bootstrap.min.js"></script>
+<script id="dsq-count-scr" src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/count.js" async=""></script>
+
+<script>
+  // Disable form submissions if there are invalid fields
+  // See: https://getbootstrap.com/docs/4.0/components/forms/#validation
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
+  
+<iframe style="display: none;" src="./xltrail - Version Control for Excel Spreadsheets - How to use Git hooks to version-control your Excel VBA code_files/saved_resource(1).html"></iframe></body></html>
